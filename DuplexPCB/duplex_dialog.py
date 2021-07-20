@@ -6,6 +6,7 @@ import os
 import time
 
 from .duplex_plugin_gui import duplex_gui
+from .duplex_plugin_action import DuplexAction, __version__
 #from .td import SetTeardrops, RmTeardrops, __version__
 
 class DuplexDialog(duplex_gui):
@@ -15,7 +16,7 @@ class DuplexDialog(duplex_gui):
         """Init the brand new instance"""
         super(DuplexDialog, self).__init__(None)
         self.board = board
-        #self.SetTitle("Duplex PCB (v{0})".format(__version__))
+        self.SetTitle("DuplexPCB (v{0})".format(__version__))
         #self.rbx_action.Bind(wx.EVT_RADIOBOX, self.onAction)
         self.Bind(wx.EVT_CLOSE, self.onCloseWindow)
         self.but_cancel.Bind(wx.EVT_BUTTON, self.onCloseWindow)
@@ -51,8 +52,14 @@ class DuplexDialog(duplex_gui):
         else:
             count = RmTeardrops(pcb=self.board)
             wx.MessageBox("{0} Teardrops removed".format(count))
-        pcbnew.Refresh() #Show up newly added vias'''
-        wx.MessageBox("Ready!")
+        '''
+        dAction = DuplexAction(self.board, [], "file.txt")
+        result = dAction.process()
+        pcbnew.Refresh() #Show up updated PCB
+        msg = ""
+        for x in result:
+            msg += x + ": " + str(result[x]) + "\n"
+        wx.MessageBox("Ready! Updates:\n" + msg)
         self.EndModal(wx.ID_OK)
 
     def onCloseWindow(self, event):

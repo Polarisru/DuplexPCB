@@ -8,33 +8,48 @@ import re
 # the internal coorinate space of pcbnew is 10E-6 mm. (a millionth of a mm)
 # the coordinate 121550000 corresponds to 121.550000 
 
+__version__ = "0.4.11"
+
 SCALE = 1000000
 
 COOR_X = int(148.5 * SCALE)
 COOR_Y = int((70 + 50) * SCALE)
 
-board = pcbnew.GetBoard()
+class DuplexAction:
+    def __init__(self, board, params, mapfile):
+        self.board = board
+        self.params = params
+        self.mapfile = mapfile
+        self.elements = {}
+        
+    def modify_point(self, point):
+        new_x = COOR_X - point.x + COOR_X
+        new_y = COOR_Y - point.y
+        return pcbnew.wxPoint(new_x, new_y)
 
-def modify_point(point):
-  new_x = COOR_X - point.x + COOR_X
-  new_y = COOR_Y - point.y
-  return pcbnew.wxPoint(new_x, new_y)
+    def process():
+        # read mapping file and create dictionary
+        with open(self.mapfile, "r") as f:
+            lines = f.readlines()
+            for line in lines:
+                e1, e2 = line.strip().split(":")
+                if e1 is not None and e2 is not None:
+                    self.elements[e1] = e2
+        result = {}
+        result["footprints"] = 10;
+        result["vias"] = 15;
+        result["tracks"] = 20;
+        return result
 
+'''        
 # Footprints
 print("Moving footprints...")
 
-with open("table_pcb.txt", "r") as f:
-  elements = f.readlines()
-
-elems = {}
-
 for element in elements:
-  e1, e2 = element.strip().split(":")
-  elems[e1] = e2
   # Find the component
-  e_orig = board.FindModuleByReference(e1)
+  e_orig = board.FindModuleByReference(element)
   # Find the copy
-  e_copy = board.FindModuleByReference(e2)
+  e_copy = board.FindModuleByReference(elements[element])
 
   # Place it
   pos = e_orig.GetPosition()
@@ -148,3 +163,4 @@ for track in new_tracks:
 print("Tracks: Ready!")
 
 pcbnew.Refresh()
+'''
