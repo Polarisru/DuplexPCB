@@ -19,7 +19,7 @@ class duplex_gui ( wx.Dialog ):
 	def __init__( self, parent ):
 		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"DuplexPCB", pos = wx.DefaultPosition, size = wx.Size( 400,310 ), style = wx.DEFAULT_DIALOG_STYLE )
 
-		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+		#self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
 		bSizer1 = wx.BoxSizer( wx.VERTICAL )
 
@@ -35,9 +35,9 @@ class duplex_gui ( wx.Dialog ):
 
 		bSizer2.Add( self.m_staticText1, 0, wx.ALL, 5 )
 
-		self.m_spinCtrlDouble1 = wx.SpinCtrlDouble( sbSizer1.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), wx.SP_ARROW_KEYS, 0, 250, 0, 0.1 )
-		self.m_spinCtrlDouble1.SetDigits( 1 )
-		bSizer2.Add( self.m_spinCtrlDouble1, 0, wx.ALL, 5 )
+		self.sp_center_x = wx.SpinCtrlDouble( sbSizer1.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), wx.SP_ARROW_KEYS, 0, 250, 0, 0.1 )
+		self.sp_center_x.SetDigits( 1 )
+		bSizer2.Add( self.sp_center_x, 0, wx.ALL, 5 )
 
 
 		bSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
@@ -47,9 +47,9 @@ class duplex_gui ( wx.Dialog ):
 
 		bSizer2.Add( self.m_staticText2, 0, wx.ALL, 5 )
 
-		self.m_spinCtrlDouble2 = wx.SpinCtrlDouble( sbSizer1.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), wx.SP_ARROW_KEYS, 0, 250, 0, 0.1 )
-		self.m_spinCtrlDouble2.SetDigits( 1 )
-		bSizer2.Add( self.m_spinCtrlDouble2, 0, wx.ALL, 5 )
+		self.sp_center_y = wx.SpinCtrlDouble( sbSizer1.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), wx.SP_ARROW_KEYS, 0, 250, 0, 0.1 )
+		self.sp_center_y.SetDigits( 1 )
+		bSizer2.Add( self.sp_center_y, 0, wx.ALL, 5 )
 
 
 		bSizer2.Add( ( 0, 0), 1, wx.EXPAND, 5 )
@@ -115,8 +115,8 @@ class duplex_gui ( wx.Dialog ):
 
 		sbSizer5 = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Mapping file: " ), wx.VERTICAL )
 
-		self.m_filePicker1 = wx.FilePickerCtrl( sbSizer5.GetStaticBox(), wx.ID_ANY, wx.EmptyString, u"Select a mapping file", u"*.txt", wx.DefaultPosition, wx.Size( 370,-1 ), wx.FLP_DEFAULT_STYLE )
-		sbSizer5.Add( self.m_filePicker1, 0, wx.ALL, 5 )
+		self.fp_mapfile = wx.FilePickerCtrl( sbSizer5.GetStaticBox(), wx.ID_ANY, wx.EmptyString, u"Select a mapping file", u"*.txt", wx.DefaultPosition, wx.Size( 370,-1 ), wx.FLP_DEFAULT_STYLE )
+		sbSizer5.Add( self.fp_mapfile, 0, wx.ALL, 5 )
 
 
 		bSizer1.Add( sbSizer5, 1, wx.EXPAND, 5 )

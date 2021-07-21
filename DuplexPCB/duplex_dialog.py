@@ -5,9 +5,8 @@ import pcbnew
 import os
 import time
 
-from .duplex_plugin_gui import duplex_gui
-from .duplex_plugin_action import DuplexAction, __version__
-#from .td import SetTeardrops, RmTeardrops, __version__
+from duplex_plugin_gui import duplex_gui
+from duplex_plugin_action import MakeDuplex, __version__
 
 class DuplexDialog(duplex_gui):
     """Class that gathers all the Gui control"""
@@ -53,13 +52,17 @@ class DuplexDialog(duplex_gui):
             count = RmTeardrops(pcb=self.board)
             wx.MessageBox("{0} Teardrops removed".format(count))
         '''
-        dAction = DuplexAction(self.board, [], "file.txt")
-        result = dAction.process()
+        wx.MessageBox("Started!")
+        result = MakeDuplex(board=self.board, 
+                            mapfile=self.fp_mapfile.GetPath(), 
+                            center_x=self.sp_center_x.GetValue(), 
+                            center_y=self.sp_center_y.GetValue(), 
+                            mirror_type=2)
         pcbnew.Refresh() #Show up updated PCB
         msg = ""
         for x in result:
             msg += x + ": " + str(result[x]) + "\n"
-        wx.MessageBox("Ready! Updates:\n" + msg)
+        wx.MessageBox("Ready! Done:\n" + msg)
         self.EndModal(wx.ID_OK)
 
     def onCloseWindow(self, event):
@@ -71,3 +74,6 @@ def InitDuplexDialog(board):
     tg = DuplexDialog(board)
     tg.ShowModal()
     return tg
+    
+if __name__ == '__main__':
+    InitDuplexDialog(pcbnew.GetBoard())

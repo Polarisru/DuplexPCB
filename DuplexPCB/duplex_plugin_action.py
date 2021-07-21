@@ -5,28 +5,78 @@ import pdb
 import pcbnew
 import re
 
+__version__ = "0.0.1"
+
 # the internal coorinate space of pcbnew is 10E-6 mm. (a millionth of a mm)
 # the coordinate 121550000 corresponds to 121.550000 
-
-__version__ = "0.4.11"
-
 SCALE = 1000000
 
-COOR_X = int(148.5 * SCALE)
-COOR_Y = int((70 + 50) * SCALE)
+# middle of the PCB
+COOR_X = 0
+COOR_Y = 0
 
-class DuplexAction:
+# types of mirroring
+MIRROR_TYPE_X = 0
+MIRROR_TYPE_Y = 1
+MIRROR_TYPE_BOTH = 2
+
+def __ModifyPoint(mirror_type, point):
+    if mirror_type in [MIRROR_TYPE_X, MIRROR_TYPE_BOTH]:
+        new_x = 2 * COOR_X - point.x
+    if mirror_type in [MIRROR_TYPE_Y, MIRROR_TYPE_BOTH]:
+        new_y = 2 * COOR_Y - point.y
+    return pcbnew.wxPoint(new_x, new_y)
+
+def MakeDuplex(center_x=0, center_y=0, mirror_type=0, do_footprints=True, do_tracks=True,
+                 do_vias=True, do_polygons=False, mapfile=None, board=None):
+    """Do second part"""
+    if board is None:
+        board = GetBoard()    
+    COOR_X = int(center_x * SCALE)
+    COOR_Y = int(center_y * SCALE)
+    elements = {}
+    with open(mapfile, "r") as f:
+        lines = f.readlines()
+        for line in lines:
+            e1, e2 = line.strip().split(":")
+            if e1 is not None and e2 is not None:
+                elements[e1] = e2
+    count_footprints = 0
+    count_vias = 0
+    count_tracks = 0
+    for element in elements:
+        # Find the footprint
+        e_orig = board.FindModuleByReference(element)
+        # Find the copy
+        e_copy = board.FindModuleByReference(elements[element])
+        # Place it
+        pos = e_orig.GetPosition()
+        e_copy.SetPosition(__ModifyPoint(mirror_type, pos))        
+        # flip footprint if necessary
+        flip = e_orig.IsFlipped()
+        if flip and not e_copy.IsFlipped():
+            e_copy.Flip(pos)
+        # get original angle
+        angle = e_orig.GetOrientation()
+        # Rotate it (angle in 1/10 degreee)
+        new_angle = int((angle + 180*10) % (360*10))
+        e_copy.SetOrientation(new_angle)
+        count_footprints = count_footprints + 1
+    
+    result = {}
+    result["footprints"] = count_footprints;
+    result["vias"] = count_vias;
+    result["tracks"] = count_tracks;
+    return result
+    
+
+'''class DuplexAction:
     def __init__(self, board, params, mapfile):
         self.board = board
         self.params = params
         self.mapfile = mapfile
         self.elements = {}
         
-    def modify_point(self, point):
-        new_x = COOR_X - point.x + COOR_X
-        new_y = COOR_Y - point.y
-        return pcbnew.wxPoint(new_x, new_y)
-
     def process():
         # read mapping file and create dictionary
         with open(self.mapfile, "r") as f:
@@ -39,7 +89,7 @@ class DuplexAction:
         result["footprints"] = 10;
         result["vias"] = 15;
         result["tracks"] = 20;
-        return result
+        return result'''
 
 '''        
 # Footprints
