@@ -52,12 +52,11 @@ class DuplexDialog(duplex_gui):
             count = RmTeardrops(pcb=self.board)
             wx.MessageBox("{0} Teardrops removed".format(count))
         '''
-        wx.MessageBox("Started!")
         result = MakeDuplex(board=self.board, 
-                            mapfile=self.fp_mapfile.GetPath(), 
                             center_x=self.sp_center_x.GetValue(), 
-                            center_y=self.sp_center_y.GetValue(), 
-                            mirror_type=2)
+                            center_y=self.sp_center_y.GetValue(),
+                            mirror_type=2,
+                            mapfile=self.fp_mapfile.GetPath())
         pcbnew.Refresh() #Show up updated PCB
         msg = ""
         for x in result:
