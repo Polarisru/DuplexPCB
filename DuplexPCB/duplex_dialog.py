@@ -5,8 +5,8 @@ import pcbnew
 import os
 import time
 
-from duplex_plugin_gui import duplex_gui
-from duplex_plugin_action import MakeDuplex, __version__
+from .duplex_plugin_gui import duplex_gui
+from .duplex_plugin_action import MakeDuplex, __version__
 
 class DuplexDialog(duplex_gui):
     """Class that gathers all the Gui control"""
@@ -16,7 +16,6 @@ class DuplexDialog(duplex_gui):
         super(DuplexDialog, self).__init__(None)
         self.board = board
         self.SetTitle("DuplexPCB (ver.{})".format(__version__))
-        #self.rbx_action.Bind(wx.EVT_RADIOBOX, self.onAction)
         self.Bind(wx.EVT_CLOSE, self.onCloseWindow)
         self.but_cancel.Bind(wx.EVT_BUTTON, self.onCloseWindow)
         self.but_ok.Bind(wx.EVT_BUTTON, self.onProcessAction)
@@ -45,8 +44,7 @@ class DuplexDialog(duplex_gui):
             self.mirror_type = 1
         else:
             self.mirror_type = 2
-        #print(rb.GetLabel() + ' is clicked from Radio Group')
-        print("Value: " + str(self.mirror_type))
+        #print("Value: " + str(self.mirror_type))
 
     def onProcessAction(self, event):
         # Executes the requested action
