@@ -15,13 +15,15 @@ class DuplexDialog(duplex_gui):
         """Init the brand new instance"""
         super(DuplexDialog, self).__init__(None)
         self.board = board
-        self.SetTitle("DuplexPCB (v{0})".format(__version__))
+        self.SetTitle("DuplexPCB (ver.{})".format(__version__))
         #self.rbx_action.Bind(wx.EVT_RADIOBOX, self.onAction)
         self.Bind(wx.EVT_CLOSE, self.onCloseWindow)
         self.but_cancel.Bind(wx.EVT_BUTTON, self.onCloseWindow)
         self.but_ok.Bind(wx.EVT_BUTTON, self.onProcessAction)
+        self.Bind(wx.EVT_RADIOBUTTON, self.onProcessMirror)
         #self.m_bitmap_help.SetBitmap(wx.Bitmap( os.path.join(os.path.dirname(os.path.realpath(__file__)), "rcs", "teardrops-help.png") ) )
         self.SetMinSize(self.GetSize())
+        self.mirror_type = 0
 
     def onAction(self, e):
         """Enables or disables the parameters/options elements"""
@@ -34,34 +36,37 @@ class DuplexDialog(duplex_gui):
                 el.Enable()
             else:
                 el.Disable()
+                
+    def onProcessMirror(self, event):
+        rb = event.GetEventObject() 
+        if rb == self.radio_shift:
+            self.mirror_type = 0
+        elif rb == self.radio_mirror:
+            self.mirror_type = 1
+        else:
+            self.mirror_type = 2
+        #print(rb.GetLabel() + ' is clicked from Radio Group')
+        print("Value: " + str(self.mirror_type))
 
     def onProcessAction(self, event):
-        """Executes the requested action"""
-        '''if self.rbx_action.GetSelection() == 0:
-            start = time.time()
-            count = SetTeardrops(self.sp_hpercent.GetValue(),
-                                 self.sp_vpercent.GetValue(),
-                                 self.sp_nbseg.GetValue(),
-                                 self.board,
-                                 self.cb_include_smd_pads.IsChecked(),
-                                 self.cb_discard_in_same_zone.IsChecked(),
-                                 self.cb_follow_tracks.IsChecked(),
-                                 self.cb_no_bulge.IsChecked())
-            wx.MessageBox("{} Teardrops inserted, took {:.3f} seconds".format(count, time.time()-start))
-        else:
-            count = RmTeardrops(pcb=self.board)
-            wx.MessageBox("{0} Teardrops removed".format(count))
-        '''
+        # Executes the requested action
         result = MakeDuplex(board=self.board, 
                             center_x=self.sp_center_x.GetValue(), 
                             center_y=self.sp_center_y.GetValue(),
-                            mirror_type=2,
+                            mirror_type=self.mirror_type,
+                            do_footprints=self.cb_footprints.IsChecked(),
+                            do_vias=self.cb_vias.IsChecked(),
+                            do_tracks=self.cb_tracks.IsChecked(),
+                            do_polygons=self.cb_polygons.IsChecked(),
+                            sheet_orig=self.text_orig.GetValue(), 
+                            sheet_copy=self.text_copy.GetValue(),
                             mapfile=self.fp_mapfile.GetPath())
-        pcbnew.Refresh() #Show up updated PCB
+        # Show up updated PCB
+        pcbnew.Refresh() 
         msg = ""
         for x in result:
-            msg += x + ": " + str(result[x]) + "\n"
-        wx.MessageBox("Ready! Done:\n" + msg)
+            msg += "{}: {}\n".format(x, str(result[x]))
+        wx.MessageBox("Ready!\n\nProcessed:\n" + msg)
         self.EndModal(wx.ID_OK)
 
     def onCloseWindow(self, event):
@@ -69,7 +74,7 @@ class DuplexDialog(duplex_gui):
 
 
 def InitDuplexDialog(board):
-    """Launch the dialog"""
+    # Launch the dialog
     tg = DuplexDialog(board)
     tg.ShowModal()
     return tg
