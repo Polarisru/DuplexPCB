@@ -601,7 +601,7 @@ Wire Wire Line
 Wire Wire Line
 	1425 6500 1550 6500
 Wire Wire Line
-	1425 6300 1925 6300
+	1425 6300 1675 6300
 Wire Wire Line
 	925  7250 1200 7250
 Wire Wire Line
@@ -1133,7 +1133,7 @@ F 3 "~" H 5325 6525 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5525 3050 5650 3050
+	5525 3050 5750 3050
 Wire Wire Line
 	5525 5750 5600 5750
 Wire Wire Line
@@ -1352,7 +1352,7 @@ F 3 "~" H 6350 3950 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	6500 3950 6750 3950
+	6500 3950 6825 3950
 $Comp
 L VolzLib:R0603 R?
 U 1 1 610EDE42
@@ -1736,7 +1736,7 @@ Wire Wire Line
 	1775 1375 1775 1325
 Connection ~ 1775 1325
 Wire Wire Line
-	2425 650  2600 650 
+	2425 650  2675 650 
 $Comp
 L VolzLib:C0603 C?
 U 1 1 62401A49
@@ -2116,7 +2116,7 @@ Connection ~ 3250 7250
 Wire Wire Line
 	3250 7250 3350 7250
 Wire Wire Line
-	925  3200 1050 3200
+	675  3200 1050 3200
 Wire Wire Line
 	1050 3500 1050 3775
 Wire Wire Line
@@ -2139,134 +2139,134 @@ $EndComp
 Wire Wire Line
 	1200 6950 1575 6950
 Wire Wire Line
-	3050 6950 3150 6950
+	2950 6950 3150 6950
 Wire Wire Line
 	4625 5050 4825 5050
 Wire Wire Line
-	5525 3850 5650 3850
+	5525 3850 5750 3850
 Wire Wire Line
-	5525 4950 5650 4950
+	5525 4950 5750 4950
 Wire Wire Line
-	5125 650  5250 650 
+	5125 650  5325 650 
 Wire Wire Line
 	10550 1550 10750 1550
 Wire Wire Line
-	5600 5650 5675 5650
+	5600 5650 5800 5650
 Connection ~ 5600 5650
 Wire Wire Line
 	1500 1325 1775 1325
 Wire Wire Line
-	3075 1600 3200 1600
+	3075 1600 3325 1600
 Wire Wire Line
-	6500 875  6275 875 
+	6575 875  6275 875 
 Text Label 675  3100 0    50   ~ 0
-RST2
+RST
 Text Label 1925 6600 2    50   ~ 0
-RST2
-Text Label 1925 6300 2    50   ~ 0
-SWD2
+RST
+Text Label 1675 6300 2    50   ~ 0
+SWD
 Text Label 750  4500 0    50   ~ 0
-SWD2
+SWD
 Wire Wire Line
 	750  4500 1775 4500
 Text Label 750  4400 0    50   ~ 0
-SWC2
-Text Label 1925 6400 2    50   ~ 0
-SWC2
+SWC
+Text Label 1675 6400 2    50   ~ 0
+SWC
 Wire Wire Line
-	1425 6400 1925 6400
+	1425 6400 1675 6400
 Text Label 3475 3200 2    50   ~ 0
-CURRL2
+CURRL
 Text Label 3475 3300 2    50   ~ 0
-CURR2
+CURR
 Wire Wire Line
 	2875 3300 3475 3300
 Text Label 3475 3500 2    50   ~ 0
-TX_INT2
+TX_INT
 Text Label 3475 3600 2    50   ~ 0
-U5V2
+U5V
 Text Label 6075 1200 2    50   ~ 0
-U5V2
+U5V
 Wire Wire Line
 	5675 1200 6075 1200
 Text Label 3475 3700 2    50   ~ 0
-DIR_INT2
+DIR_INT
 Text Label 4350 3150 0    50   ~ 0
-DIR_INT2
+DIR_INT
 Wire Wire Line
 	4350 3150 4775 3150
 Text Label 3475 3800 2    50   ~ 0
-RX_INT2
+RX_INT
 Text Label 4350 3050 0    50   ~ 0
-RX_INT2
+RX_INT
 Wire Wire Line
 	4350 3050 4825 3050
 Text Label 4350 3350 0    50   ~ 0
-TX_INT2
+TX_INT
 Wire Wire Line
 	4350 3350 4825 3350
 Text Label 3475 3900 2    50   ~ 0
-TE2
+TE
 Text Label 4350 4450 0    50   ~ 0
-TE2
+TE
 Wire Wire Line
 	4350 4450 4825 4450
 Text Label 3475 4000 2    50   ~ 0
-DCO2
+DCO
 Wire Wire Line
 	2800 7250 3250 7250
 Text Label 3475 4100 2    50   ~ 0
-DIR_EXT2
+DIR_EXT
 Text Label 4350 3950 0    50   ~ 0
-DIR_EXT2
+DIR_EXT
 Wire Wire Line
 	4350 3950 4775 3950
 Text Label 3475 4200 2    50   ~ 0
-RX_EXT2
+RX_EXT
 Text Label 4350 3850 0    50   ~ 0
-RX_EXT2
+RX_EXT
 Wire Wire Line
 	4350 3850 4825 3850
 Text Label 3475 4300 2    50   ~ 0
-TX_EXT2
+TX_EXT
 Text Label 4350 4150 0    50   ~ 0
-TX_EXT2
+TX_EXT
 Wire Wire Line
 	4350 4150 4775 4150
 Text Label 3475 4400 2    50   ~ 0
-DCI2
+DCI
 Text Label 2275 7250 2    50   ~ 0
-DCI2
+DCI
 Wire Wire Line
 	1950 7250 2275 7250
 Text Label 3475 4500 2    50   ~ 0
-BRAKE2
+BRAKE
 Text Label 7900 4800 0    50   ~ 0
-BRAKE2
+BRAKE
 Wire Wire Line
 	7900 4800 8575 4800
 Text Label 3475 4600 2    50   ~ 0
-MOT_DIR2
+MOT_DIR
 Text Label 7900 4700 0    50   ~ 0
-MOT_DIR2
+MOT_DIR
 Wire Wire Line
 	7900 4700 8575 4700
 Text Label 3475 4700 2    50   ~ 0
-H_C2
+H_C
 Wire Wire Line
 	2875 4800 3475 4800
 Text Label 3475 4800 2    50   ~ 0
-H_B2
+H_B
 Wire Wire Line
 	2875 4900 3475 4900
 Text Label 3475 4900 2    50   ~ 0
-H_A2
+H_A
 Text Label 7900 4600 0    50   ~ 0
-H_C2
+H_C
 Text Label 7900 4500 0    50   ~ 0
-H_B2
+H_B
 Text Label 7900 4400 0    50   ~ 0
-H_A2
+H_A
 Wire Wire Line
 	7900 4400 8575 4400
 Wire Wire Line
@@ -2274,17 +2274,17 @@ Wire Wire Line
 Wire Wire Line
 	7900 4600 8575 4600
 Text Label 3475 5000 2    50   ~ 0
-PWM2
+PWM
 Text Label 7900 4300 0    50   ~ 0
-PWM2
+PWM
 Wire Wire Line
 	7900 4300 8575 4300
 Text Label 9925 1950 0    50   ~ 0
-H_C2
+H_C
 Text Label 9925 1850 0    50   ~ 0
-H_B2
+H_B
 Text Label 9925 1750 0    50   ~ 0
-H_A2
+H_A
 Wire Wire Line
 	9925 1750 10300 1750
 Wire Wire Line
@@ -2331,27 +2331,27 @@ F 3 "~" H 10400 1950 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Text Label 10575 3450 2    50   ~ 0
-PHASE_A2
+PHASE_A
 Text Label 10575 4250 2    50   ~ 0
-PHASE_B2
+PHASE_B
 Text Label 10575 5050 2    50   ~ 0
-PHASE_C2
+PHASE_C
 Text Label 3475 5100 2    50   ~ 0
-MOT_EN2
+MOT_EN
 Text Label 9800 5950 2    50   ~ 0
-MOT_EN2
+MOT_EN
 Wire Wire Line
 	9400 5950 9800 5950
 Text Label 3475 5200 2    50   ~ 0
-SCS2
+SCS
 Text Label 3475 5300 2    50   ~ 0
-SCLK2
+SCLK
 Text Label 3475 5400 2    50   ~ 0
-MOSI2
+MOSI
 Text Label 3475 5500 2    50   ~ 0
-MSCS2
+MSCS
 Text Label 3475 5600 2    50   ~ 0
-MISO2
+MISO
 Wire Wire Line
 	8575 5350 7900 5350
 Wire Wire Line
@@ -2359,15 +2359,15 @@ Wire Wire Line
 Text Label 7900 5350 0    50   ~ 0
 SCS2
 Text Label 7900 5050 0    50   ~ 0
-MOSI2
+MOSI
 Wire Wire Line
 	8575 5150 7900 5150
 Wire Wire Line
 	7900 4950 8575 4950
 Text Label 7900 5150 0    50   ~ 0
-SCLK2
+SCLK
 Text Label 7900 4950 0    50   ~ 0
-MISO2
+MISO
 $Comp
 L VolzLib:R0603 R?
 U 1 1 631C3AAA
@@ -2395,30 +2395,28 @@ Wire Wire Line
 Connection ~ 5975 3250
 Wire Wire Line
 	5975 3250 6350 3250
-Text Label 3475 3400 2    50   ~ 0
-MOT_T2
-Text Label 6750 3950 2    50   ~ 0
-B2
+Text Label 6825 3950 2    50   ~ 0
+RS_B
 Wire Wire Line
-	6500 4050 6750 4050
-Text Label 6750 4050 2    50   ~ 0
-A2
+	6500 4050 6825 4050
+Text Label 6825 4050 2    50   ~ 0
+RS_A
 Wire Wire Line
-	6500 5050 6750 5050
-Text Label 6750 5050 2    50   ~ 0
-Z2
+	6500 5050 6825 5050
+Text Label 6825 5050 2    50   ~ 0
+RS_Z
 Wire Wire Line
-	6500 5150 6750 5150
-Text Label 6750 5150 2    50   ~ 0
-Y2
+	6500 5150 6825 5150
+Text Label 6825 5150 2    50   ~ 0
+RS_Y
 Text Label 6750 5850 2    50   ~ 0
-CANH2
+CANH
 Text Label 6750 5950 2    50   ~ 0
-CANL2
+CANL
 Text Label 7150 5750 0    50   ~ 0
-OPTO_A2
+OPTO_A
 Text Label 7150 5950 0    50   ~ 0
-OPTO_C2
+OPTO_C
 $Comp
 L VolzLib:Conn_JST_PHD_02x05 J9
 U 1 1 638F0D6F
@@ -2434,23 +2432,23 @@ $EndComp
 Wire Wire Line
 	7775 1550 8125 1550
 Text Label 8125 1550 2    50   ~ 0
-B2
+RS_B
 Wire Wire Line
 	7275 1550 6975 1550
 Text Label 6975 1550 0    50   ~ 0
-A2
+RS_A
 Wire Wire Line
 	7775 1650 8125 1650
 Text Label 8125 1650 2    50   ~ 0
-Z2
+RS_Z
 Wire Wire Line
 	7275 1650 6975 1650
 Text Label 6975 1650 0    50   ~ 0
-Y2
+RS_Y
 Wire Wire Line
 	6975 1750 7275 1750
 Text Label 6975 1750 0    50   ~ 0
-DCIN2
+DCIN
 Wire Wire Line
 	3600 7250 3975 7250
 Wire Wire Line
@@ -2460,56 +2458,56 @@ Wire Wire Line
 Wire Wire Line
 	7775 1850 8125 1850
 Text Label 6975 1850 0    50   ~ 0
-CANH2
+CANH
 Text Label 8125 1850 2    50   ~ 0
-CANL2
+CANL
 Wire Wire Line
 	7275 1950 6975 1950
 Wire Wire Line
 	8125 1950 7775 1950
 Text Label 6975 1950 0    50   ~ 0
-OPTO_A2
+OPTO_A
 Text Label 8125 1950 2    50   ~ 0
-OPTO_C2
+OPTO_C
 Text Label 1450 4900 0    50   ~ 0
-VOLTP2
+VOLTP
 Wire Wire Line
 	1775 5000 1450 5000
 Text Label 1450 5000 0    50   ~ 0
-VOLTS2
+VOLTS
 Text Label 1450 5100 0    50   ~ 0
-CAN_T2
+CAN_T
 Wire Wire Line
 	1775 5200 1450 5200
 Text Label 1450 5200 0    50   ~ 0
-CAN_R2
+CAN_R
 Wire Wire Line
 	4825 5650 4350 5650
 Text Label 4350 5650 0    50   ~ 0
-CAN_T2
+CAN_T
 Wire Wire Line
 	4825 5750 4350 5750
 Text Label 4350 5750 0    50   ~ 0
-CAN_R2
+CAN_R
 Wire Wire Line
 	1125 1075 1525 1075
 Text Label 1525 1075 2    50   ~ 0
-VOLTP2
+VOLTP
 Wire Wire Line
 	1125 1175 1525 1175
 Text Label 1525 1175 2    50   ~ 0
-VOLTS2
+VOLTS
 Wire Wire Line
 	3550 2075 3200 2075
 Text Label 3550 2075 2    50   ~ 0
-CURRL2
+CURRL
 Text Label 1500 1975 0    50   ~ 0
-CURR2
+CURR
 Wire Wire Line
 	1975 1975 1500 1975
 Connection ~ 1975 1975
 Wire Wire Line
-	9925 3050 10100 3050
+	9925 3050 10175 3050
 Wire Wire Line
 	8250 3050 8050 3050
 Connection ~ 8250 3050
@@ -2739,13 +2737,13 @@ $EndComp
 Wire Wire Line
 	5525 5250 5525 5375
 Text Label 2800 7250 0    50   ~ 0
-DCO2
+DCO
 Text Label 8125 1750 2    50   ~ 0
-DCOUT2
+DCOUT
 Text Label 925  7250 0    50   ~ 0
-DCIN2
+DCIN
 Text Label 3975 7250 2    50   ~ 0
-DCOUT2
+DCOUT
 $Comp
 L VolzLib:LED_0603_red D?
 U 1 1 663AAC5D
@@ -2766,13 +2764,9 @@ Wire Wire Line
 	2900 2900 2900 3100
 Wire Wire Line
 	2875 3100 2900 3100
-Text GLabel 6500 875  2    50   Input ~ 0
-+ARM2
 Connection ~ 5125 975 
 Wire Wire Line
 	5125 975  5125 875 
-Text GLabel 925  3200 0    50   Input ~ 0
-+ARM2
 $Comp
 L VolzLib:R0603 R?
 U 1 1 6117D039
@@ -2790,50 +2784,18 @@ Wire Wire Line
 	1325 2950 1350 2950
 Wire Wire Line
 	1075 2950 1050 2950
-Text GLabel 1600 6100 2    50   Input ~ 0
-+ARM2
 Wire Wire Line
-	1600 6100 1525 6100
-Wire Wire Line
-	1525 6100 1525 6200
-Wire Wire Line
-	1525 6200 1425 6200
-Text GLabel 1500 1325 0    50   Input ~ 0
-+5V2
-Text GLabel 5250 650  2    50   Input ~ 0
-+5V2
+	1675 6200 1425 6200
 Wire Wire Line
 	5400 875  5125 875 
 Connection ~ 5400 875 
-Text GLabel 5650 3050 2    50   Input ~ 0
-+5V2
-Text GLabel 5650 3850 2    50   Input ~ 0
-+5V2
-Text GLabel 5650 4950 2    50   Input ~ 0
-+5V2
-Text GLabel 5675 5650 2    50   Input ~ 0
-+5V2
 Text GLabel 4625 5050 0    50   Input ~ 0
-+5V2
-Text GLabel 1200 6950 0    50   Input ~ 0
-+5V2
-Text GLabel 3050 6950 0    50   Input ~ 0
-+5V2
-Text GLabel 10550 1550 0    50   Input ~ 0
 +5V2
 Wire Wire Line
 	6275 925  6275 875 
 Connection ~ 6275 875 
 Wire Wire Line
 	6275 875  5925 875 
-Text GLabel 2600 650  2    50   Input ~ 0
-+28V2
-Text GLabel 3200 1600 2    50   Input ~ 0
-+5V2
-Text GLabel 10100 3050 2    50   Input ~ 0
-+28V2
-Text GLabel 7825 3050 0    50   Input ~ 0
-+28V2
 NoConn ~ 1775 4700
 NoConn ~ 1775 5300
 Connection ~ 10050 3450
@@ -2865,8 +2827,6 @@ F 3 "~" H 3075 1700 50  0001 C CNN
 	1    3075 1700
 	1    0    0    -1  
 $EndComp
-Text GLabel 3575 2900 2    50   Input ~ 0
-+5V2
 Connection ~ 8525 5750
 Wire Wire Line
 	8525 5750 8350 5750
@@ -2941,15 +2901,15 @@ Wire Wire Line
 Wire Wire Line
 	8975 1950 9350 1950
 Text Label 8975 2050 0    50   ~ 0
-MSCS2
+MSCS
 Text Label 8975 1950 0    50   ~ 0
-MISO2
+MISO
 Wire Wire Line
 	8975 2050 9350 2050
 Wire Wire Line
 	8725 1650 8675 1650
 Text Label 8350 1650 0    50   ~ 0
-MOT_T2
+MOT_T
 Wire Wire Line
 	8975 1650 9350 1650
 $Comp
@@ -2987,12 +2947,10 @@ Wire Wire Line
 Connection ~ 8675 1650
 Wire Wire Line
 	8350 1650 8675 1650
-Text GLabel 9025 1400 0    50   Input ~ 0
-+5V2
 Wire Wire Line
 	9250 1400 9025 1400
 Text Label 8975 1850 0    50   ~ 0
-SCLK2
+SCLK
 $Comp
 L VolzLib:Conn_Molex_Picoblade_01x08 J?
 U 1 1 616D2EC1
@@ -3021,17 +2979,11 @@ Wire Wire Line
 Connection ~ 9250 1550
 Wire Wire Line
 	9250 1550 9250 1400
-Text Label 10700 1750 0    25   ~ 0
-HA2
-Text Label 10700 1850 0    25   ~ 0
-HB2
-Text Label 10700 1950 0    25   ~ 0
-HC2
 Text Label 8650 5750 0    25   ~ 0
-MEN2
+MEN
 Connection ~ 8050 3050
 Wire Wire Line
-	8050 3050 7825 3050
+	8050 3050 7775 3050
 Connection ~ 5600 6375
 $Comp
 L VolzLib:C0603 C?
@@ -3129,7 +3081,7 @@ $EndComp
 Wire Wire Line
 	2275 1975 2600 1975
 Wire Wire Line
-	3525 2900 3575 2900
+	3525 2900 3725 2900
 $Comp
 L VolzLib:R0603 R?
 U 1 1 663AAC66
@@ -3143,4 +3095,42 @@ F 3 "~" H 3425 2900 50  0001 C CNN
 	1    3425 2900
 	0    -1   -1   0   
 $EndComp
+Text Label 3475 3400 2    50   ~ 0
+MOT_T
+Text Label 7775 3050 0    50   ~ 10
++28V
+Text Label 10175 3050 2    50   ~ 10
++28V
+Text Label 2675 650  2    50   ~ 10
++28V
+Text Label 6575 875  2    50   ~ 10
++ARM
+Text Label 675  3200 0    50   ~ 10
++ARM
+Text Label 1675 6200 2    50   ~ 10
++ARM
+Text Label 3325 1600 2    50   ~ 10
++5V
+Text Label 1500 1325 0    50   ~ 10
++5V
+Text Label 5325 650  2    50   ~ 10
++5V
+Text Label 9025 1400 0    50   ~ 10
++5V
+Text Label 10550 1550 0    50   ~ 10
++5V
+Text Label 3725 2900 2    50   ~ 10
++5V
+Text Label 1200 6950 0    50   ~ 10
++5V
+Text Label 2950 6950 0    50   ~ 10
++5V
+Text Label 5750 3050 2    50   ~ 10
++5V
+Text Label 5800 5650 2    50   ~ 10
++5V
+Text Label 5750 4950 2    50   ~ 10
++5V
+Text Label 5750 3850 2    50   ~ 10
++5V
 $EndSCHEMATC

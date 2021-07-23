@@ -17,7 +17,7 @@ import wx.xrc
 class duplex_gui ( wx.Dialog ):
 
 	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"DuplexPCB", pos = wx.DefaultPosition, size = wx.Size( 400,367 ), style = wx.DEFAULT_DIALOG_STYLE )
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"DuplexPCB", pos = wx.DefaultPosition, size = wx.Size( 398,478 ), style = wx.DEFAULT_DIALOG_STYLE )
 
 		#self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -89,34 +89,86 @@ class duplex_gui ( wx.Dialog ):
 
 		sizer_main.Add( sb_center, 1, wx.EXPAND, 5 )
 
-		sb_sheets = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Sheets mapping: " ), wx.VERTICAL )
+		sb_structure = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Project structure: " ), wx.VERTICAL )
+
+		bSizer6 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.radio_single = wx.RadioButton( sb_structure.GetStaticBox(), wx.ID_ANY, u"Single sheet", wx.DefaultPosition, wx.DefaultSize, wx.RB_GROUP )
+		self.radio_single.SetValue( True )
+		bSizer6.Add( self.radio_single, 0, wx.ALL, 5 )
+
+
+		bSizer6.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
+		self.radio_mult = wx.RadioButton( sb_structure.GetStaticBox(), wx.ID_ANY, u"Multiple sheets", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer6.Add( self.radio_mult, 0, wx.ALL, 5 )
+
+
+		bSizer6.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
+
+		sb_structure.Add( bSizer6, 1, wx.EXPAND, 5 )
+
+
+		sizer_main.Add( sb_structure, 1, wx.EXPAND, 5 )
+
+		sb_single = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"SIngle sheet mapping: " ), wx.VERTICAL )
+
+		bSizer7 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.m_staticText5 = wx.StaticText( sb_single.GetStaticBox(), wx.ID_ANY, u"Original", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText5.Wrap( -1 )
+
+		bSizer7.Add( self.m_staticText5, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
+
+		self.text_orig_s = wx.TextCtrl( sb_single.GetStaticBox(), wx.ID_ANY, u"(w+)1", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer7.Add( self.text_orig_s, 0, wx.ALL, 5 )
+
+
+		bSizer7.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
+		self.m_staticText6 = wx.StaticText( sb_single.GetStaticBox(), wx.ID_ANY, u"To copy", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText6.Wrap( -1 )
+
+		bSizer7.Add( self.m_staticText6, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
+
+		self.text_copy_s = wx.TextCtrl( sb_single.GetStaticBox(), wx.ID_ANY, u"(w+)2", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer7.Add( self.text_copy_s, 0, wx.ALL, 5 )
+
+
+		sb_single.Add( bSizer7, 1, wx.EXPAND, 5 )
+
+
+		sizer_main.Add( sb_single, 1, wx.EXPAND, 5 )
+
+		sb_multiple = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Multiple sheets mapping: " ), wx.VERTICAL )
 
 		bSizer5 = wx.BoxSizer( wx.HORIZONTAL )
 
-		self.m_staticText3 = wx.StaticText( sb_sheets.GetStaticBox(), wx.ID_ANY, u"Original", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText3 = wx.StaticText( sb_multiple.GetStaticBox(), wx.ID_ANY, u"Original", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText3.Wrap( -1 )
 
 		bSizer5.Add( self.m_staticText3, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-		self.text_orig = wx.TextCtrl( sb_sheets.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.text_orig = wx.TextCtrl( sb_multiple.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer5.Add( self.text_orig, 0, wx.ALL, 5 )
 
 
 		bSizer5.Add( ( 0, 0), 1, wx.EXPAND, 5 )
 
-		self.m_staticText4 = wx.StaticText( sb_sheets.GetStaticBox(), wx.ID_ANY, u"To copy", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText4 = wx.StaticText( sb_multiple.GetStaticBox(), wx.ID_ANY, u"To copy", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText4.Wrap( -1 )
 
 		bSizer5.Add( self.m_staticText4, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-		self.text_copy = wx.TextCtrl( sb_sheets.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.text_copy = wx.TextCtrl( sb_multiple.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		bSizer5.Add( self.text_copy, 0, wx.ALL, 5 )
 
 
-		sb_sheets.Add( bSizer5, 1, wx.EXPAND, 5 )
+		sb_multiple.Add( bSizer5, 1, wx.EXPAND, 5 )
 
 
-		sizer_main.Add( sb_sheets, 1, wx.EXPAND, 5 )
+		sizer_main.Add( sb_multiple, 1, wx.EXPAND, 5 )
 
 		sb_copy = wx.StaticBoxSizer( wx.StaticBox( self, wx.ID_ANY, u"Copy: " ), wx.VERTICAL )
 

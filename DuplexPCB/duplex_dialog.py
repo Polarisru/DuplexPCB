@@ -5,8 +5,8 @@ import pcbnew
 import os
 import time
 
-from .duplex_plugin_gui import duplex_gui
-from .duplex_plugin_action import MakeDuplex, __version__
+from duplex_plugin_gui import duplex_gui
+from duplex_plugin_action import MakeDuplex, __version__
 
 class DuplexDialog(duplex_gui):
     """Class that gathers all the Gui control"""
