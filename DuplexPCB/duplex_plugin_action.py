@@ -4,10 +4,6 @@ import re
 
 __version__ = "0.0.1"
 
-# the internal coorinate space of pcbnew is 10E-6 mm. (a millionth of a mm)
-# the coordinate 121550000 corresponds to 121.550000 
-#SCALE = 1000000
-
 # types of transformation
 TRANSFORM_TYPE_SHIFT = 0
 TRANSFORM_TYPE_MIRROR = 1
@@ -33,6 +29,30 @@ def __GetElements(mapfile):
             if e1 is not None and e2 is not None:
                 elements[e1] = e2
     return elements
+    
+def __GetNewName(old_name, do_multi, sheet_orig, sheet_copy, elements):
+    match = re.search(r"Net-\(([a-zA-Z]+\d+)-(Pad\d+)\)", old_name)
+    match2 = False
+    if do_multi:
+        name_spl = old_name.split('/')
+        if len(name_spl) == 3 and name_spl[1] == sheet_orig:
+            match2 = True
+    else:
+        name_spl = old_name.rpartition(sheet_orig)
+        if name_spl[1] == sheet_orig and len(name_spl[2]) == 0:
+            match2 = True
+    if old_name == "GND" or match2 or match:
+        if match:
+            if match.group(1) in elements:
+                return "Net-({}-{})".format(elements[match.group(1)], match.group(2))
+        elif old_name == "GND":
+            return "GND"
+        else:
+            if do_multi:
+                return "/{}/{}".format(sheet_copy, name_spl[-1])
+            else:
+                return "{}{}".format(name_spl[0], sheet_copy)
+    return None
 
 def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYPE_SHIFT, do_footprints=True, do_tracks=True,
                  do_vias=True, do_polygons=False, mapfile=None, do_multi=True, sheet_orig="", sheet_copy=""):
@@ -73,75 +93,29 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
                 new_angle = angle
             e_copy.SetOrientation(new_angle)
             count_footprints = count_footprints + 1
-    if do_vias:
+    if do_tracks or do_vias:
         tracks = board.GetTracks()
-        vias = []
+        new_tracks = []
         for track in tracks:
-            if track.GetClass() == "VIA":
+            if track.GetClass() in ["VIA", "TRACK"]:
                 old_name = track.GetNetname()
-                match = re.search(r"Net-\(([a-zA-Z]+\d+)-(Pad\d+)\)", old_name)
-                if do_multi:
-                    match2 = re.search(r"\/{}\/([a-zA-Z0-9_+]+)".format(sheet_orig), old_name)
-                    #name_spl = old_name.split('/')
-                    #if (len(name_spl) == 3 and name_spl[1] == sheet_orig)
-                else:
-                    match2 = re.search(r"{}".format(sheet_orig), old_name)
-                if old_name == "GND" or match2 or match:
-                    pos = track.GetPosition()
+                new_name = __GetNewName(old_name, do_multi, sheet_orig, sheet_copy, elements)
+                if new_name is None:
+                    continue
+                if new_name not in board.GetNetsByName():
+                    continue
+                new_code = board.GetNetcodeFromNetname(new_name)
+                pos = track.GetPosition()
+                if do_vias and track.GetClass() == "VIA":
                     new_pos = __ModifyPoint(mirror_type, pos, [coord_x, coord_y])
-                    if match:
-                        if match.group(1) in elements:
-                            new_name = "Net-(" + elements[match.group(1)] + "-" + match.group(2) +")"
-                        else:
-                            continue
-                    elif old_name == "GND":
-                        new_name = "GND"
-                        #new_code = track.GetNetCode()
-                    else:
-                        #new_name = "/{}/{}".format(sheet_copy, name_spl[-1])
-                        #new_name = old_name[:-1] + "2"
-                        if do_multi:
-                            new_name = "/{}/{}".format(sheet_copy, match2.group(1))
-                        else:
-                            new_name = "{}2".format(match2.group(1))
-                    print(old_name + ":" + new_name)
-                    if new_name not in board.GetNetsByName():
-                        continue
-                    new_code = board.GetNetcodeFromNetname(new_name)
                     via_copy = track.Duplicate()
                     via_copy.SetPosition(new_pos)
                     via_copy.SetNetCode(new_code)
-                    vias.append(via_copy)
+                    new_tracks.append(via_copy)
                     count_vias = count_vias + 1
-                    #print(old_name, new_name, track.GetNetCode(), new_code)
-        for via in vias:
-            tracks.Append(via)
-    if do_tracks:
-        new_tracks = []
-        tracks = board.GetTracks()
-        for track in tracks:
-            if track.GetClass() == "TRACK":
-                old_name = track.GetNetname()
-                match = re.search(r"Net-\(([a-zA-Z]+\d+)-(Pad\d+)\)", old_name)
-                name_spl = old_name.split('/')
-                if (len(name_spl) == 3 and name_spl[1] == sheet_orig) or old_name == "GND" or match:
-                    pos = track.GetPosition()
+                if do_tracks and track.GetClass() == "TRACK":
                     start = track.GetStart()
                     end = track.GetEnd()
-                    if match:
-                        if match.group(1) in elements:
-                            new_name = "Net-(" + elements[match.group(1)] + "-" + match.group(2) +")"
-                        else:
-                            continue        
-                    elif old_name == "GND":
-                        new_name = "GND";
-                        #new_code = track.GetNetCode()
-                    else:
-                        new_name = "/{}/{}".format(sheet_copy, name_spl[-1])
-                        #new_name = old_name[:-1] + "2"
-                    if new_name not in board.GetNetsByName():
-                        continue
-                    new_code = board.GetNetcodeFromNetname(new_name)
                     track_copy = track.Duplicate()
                     track_copy.SetPosition(__ModifyPoint(mirror_type, pos, [coord_x, coord_y]))
                     track_copy.SetStart(__ModifyPoint(mirror_type, start, [coord_x, coord_y]))
@@ -149,7 +123,6 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
                     track_copy.SetNetCode(new_code)
                     new_tracks.append(track_copy)
                     count_tracks = count_tracks + 1
-                    #print(track.GetNetname(), new_name, [pos.x, pos.y], track.GetNetCode(), new_code)
         for track in new_tracks:
             tracks.Append(track)
     if do_polygons:
@@ -159,25 +132,3 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
     result["vias"] = count_vias
     result["tracks"] = count_tracks
     return result
-    
-
-'''class DuplexAction:
-    def __init__(self, board, params, mapfile):
-        self.board = board
-        self.params = params
-        self.mapfile = mapfile
-        self.elements = {}
-        
-    def process():
-        # read mapping file and create dictionary
-        with open(self.mapfile, "r") as f:
-            lines = f.readlines()
-            for line in lines:
-                e1, e2 = line.strip().split(":")
-                if e1 is not None and e2 is not None:
-                    self.elements[e1] = e2
-        result = {}
-        result["footprints"] = 10;
-        result["vias"] = 15;
-        result["tracks"] = 20;
-        return result'''

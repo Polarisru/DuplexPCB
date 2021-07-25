@@ -23,18 +23,7 @@ class DuplexDialog(duplex_gui):
         #self.m_bitmap_help.SetBitmap(wx.Bitmap( os.path.join(os.path.dirname(os.path.realpath(__file__)), "rcs", "teardrops-help.png") ) )
         self.SetMinSize(self.GetSize())
         self.mirror_type = 0
-
-    def onAction(self, e):
-        """Enables or disables the parameters/options elements"""
-        els = [self.st_hpercent, self.sp_hpercent, self.st_vpercent,
-               self.sp_vpercent, self.st_nbseg, self.sp_nbseg,
-               self.cb_include_smd_pads, self.cb_discard_in_same_zone,
-               self.cb_follow_tracks, self.cb_no_bulge]
-        for i, el in enumerate(els):
-            if self.rbx_action.GetSelection() == 0:
-                el.Enable()
-            else:
-                el.Disable()
+        self.do_multi = False
                 
     def onProcessMirror(self, event):
         rb = event.GetEventObject() 
@@ -42,9 +31,18 @@ class DuplexDialog(duplex_gui):
             self.mirror_type = 0
         elif rb == self.radio_mirror:
             self.mirror_type = 1
-        else:
+        elif rb == self.radio_flip:
             self.mirror_type = 2
+        elif rb == self.radio_single:
+            self.do_multi = False
+            self.st_map_hint.SetLabel("Enter suffixes for duplicated nets (e.g., 1 and 2 for NET1 and NET2)")
+            #self.sb_mapping.SetLabel("Single sheet mapping: ")            
+        elif rb == self.radio_multi:
+            self.do_multi = True
+            self.st_map_hint.SetLabel("Enter names of sheets to duplicate (e.g., SHEET1 and SHEET2")
+            #self.sb_mapping.SetLabel("Multiple sheets mapping: ")
         #print("Value: " + str(self.mirror_type))
+        #print("Clicked: " + rb.GetLabel())
 
     def onProcessAction(self, event):
         # Executes the requested action
@@ -52,6 +50,7 @@ class DuplexDialog(duplex_gui):
                             center_x=self.sp_center_x.GetValue(), 
                             center_y=self.sp_center_y.GetValue(),
                             mirror_type=self.mirror_type,
+                            do_multi=self.do_multi,
                             do_footprints=self.cb_footprints.IsChecked(),
                             do_vias=self.cb_vias.IsChecked(),
                             do_tracks=self.cb_tracks.IsChecked(),
