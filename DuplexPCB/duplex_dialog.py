@@ -45,25 +45,28 @@ class DuplexDialog(duplex_gui):
         #print("Clicked: " + rb.GetLabel())
 
     def onProcessAction(self, event):
-        # Executes the requested action
-        result = MakeDuplex(board=self.board, 
-                            center_x=self.sp_center_x.GetValue(), 
-                            center_y=self.sp_center_y.GetValue(),
-                            mirror_type=self.mirror_type,
-                            do_multi=self.do_multi,
-                            do_footprints=self.cb_footprints.IsChecked(),
-                            do_vias=self.cb_vias.IsChecked(),
-                            do_tracks=self.cb_tracks.IsChecked(),
-                            do_polygons=self.cb_polygons.IsChecked(),
-                            sheet_orig=self.text_orig.GetValue(), 
-                            sheet_copy=self.text_copy.GetValue(),
-                            mapfile=self.fp_mapfile.GetPath())
-        # Show up updated PCB
-        pcbnew.Refresh() 
-        msg = ""
-        for x in result:
-            msg += "{}: {}\n".format(x, str(result[x]))
-        wx.MessageBox("Ready!\n\nProcessed:\n" + msg)
+        try:
+            # Executes the requested action
+            result = MakeDuplex(board=self.board, 
+                                center_x=self.sp_center_x.GetValue(), 
+                                center_y=self.sp_center_y.GetValue(),
+                                mirror_type=self.mirror_type,
+                                do_multi=self.do_multi,
+                                do_footprints=self.cb_footprints.IsChecked(),
+                                do_vias=self.cb_vias.IsChecked(),
+                                do_tracks=self.cb_tracks.IsChecked(),
+                                do_polygons=self.cb_polygons.IsChecked(),
+                                sheet_orig=self.text_orig.GetValue(), 
+                                sheet_copy=self.text_copy.GetValue(),
+                                mapfile=self.fp_mapfile.GetPath())
+            # Show up updated PCB
+            pcbnew.Refresh() 
+            msg = ""
+            for x in result:
+                msg += "{}: {}\n".format(x, str(result[x]))
+            wx.MessageBox("Ready!\n\nProcessed:\n" + msg)
+        except Exception as ex:
+            wx.MessageBox("Error: " + ex)
         self.EndModal(wx.ID_OK)
 
     def onCloseWindow(self, event):
