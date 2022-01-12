@@ -1,0 +1,2 @@
+cd e:\projects\duplexpcb\duplexpcb
+execfile("duplex_dialog.py")

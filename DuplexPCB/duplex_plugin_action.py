@@ -65,6 +65,7 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
     count_footprints = 0
     count_vias = 0
     count_tracks = 0
+    count_polys = 0
     if do_footprints:
         # Process footprints
         for element in elements:
@@ -80,18 +81,35 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
             pos = e_orig.GetPosition()
             new_pos = __ModifyPoint(mirror_type, pos, [coord_x, coord_y])
             e_copy.SetPosition(new_pos)        
+            ref = e_orig.Reference()
+            ref_copy = e_copy.Reference()
+            if ref_copy is not None:
+                pos_ref = ref.GetPosition()
+                new_pos_ref = __ModifyPoint(mirror_type, pos_ref, [coord_x, coord_y])
+                ref_copy.SetPosition(new_pos_ref)
+                print(pos_ref, new_pos_ref)
             # flip footprint if necessary
             flip = e_orig.IsFlipped()
             if flip and not e_copy.IsFlipped():
                 e_copy.Flip(new_pos)
+                if ref_copy is not None:
+                    ref_copy.Flip(new_pos_ref)
             # get original angle
             angle = e_orig.GetOrientation()
+            if ref_copy is not None:
+                angle_ref = ref.GetTextAngle()
+            else:
+                angle_ref = 0
             if mirror_type == TRANSFORM_TYPE_MIRROR:
                 # Rotate it (angle in 1/10 degreee)
                 new_angle = int((angle + 180*10) % (360*10))
+                new_angle_ref = int((angle_ref + 180*10) % (360*10))
             else:
                 new_angle = angle
+                new_angle_ref = angle_ref
             e_copy.SetOrientation(new_angle)
+            if ref_copy is not None:
+                ref_copy.SetTextAngle(new_angle_ref)
             count_footprints = count_footprints + 1
     if do_tracks or do_vias:
         tracks = board.GetTracks()
@@ -126,9 +144,15 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
         for track in new_tracks:
             tracks.Append(track)
     if do_polygons:
-        pass
+        tracks = board.Zones()
+        for zone in zones:
+            #pos = track.GetPosition()
+            #print(pos.x, pos.y)
+            pass
+        print("Polygons: Ready!")
     result = {}
     result["footprints"] = count_footprints
     result["vias"] = count_vias
     result["tracks"] = count_tracks
+    result["polygons"] = count_polys
     return result
