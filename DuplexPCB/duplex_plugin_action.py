@@ -1,8 +1,7 @@
-import pdb
 import pcbnew
 import re
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 # types of transformation
 TRANSFORM_TYPE_SHIFT = 0
@@ -18,6 +17,17 @@ def __ModifyPoint(mirror_type, point, center):
     elif mirror_type in [TRANSFORM_TYPE_MIRROR, TRANSFORM_TYPE_FLIP]:
         new_x = 2 * center[0] - point.x
         new_y = 2 * center[1] - point.y
+    return pcbnew.wxPoint(new_x, new_y)
+    
+def __MovePoint(mirror_type, point, center):
+    new_x = point.x
+    new_y = point.y    
+    if mirror_type == TRANSFORM_TYPE_SHIFT:
+        new_x = point.x + center[0]
+        new_y = point.y + center[1]    
+    elif mirror_type == TRANSFORM_TYPE_MIRROR:
+        new_x = 2 * (center[0] - point.x)
+        new_y = 2 * (center[1] - point.y)
     return pcbnew.wxPoint(new_x, new_y)
     
 def __GetElements(mapfile):
@@ -81,36 +91,41 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
             pos = e_orig.GetPosition()
             new_pos = __ModifyPoint(mirror_type, pos, [coord_x, coord_y])
             e_copy.SetPosition(new_pos)        
-            ref = e_orig.Reference()
-            ref_copy = e_copy.Reference()
-            if ref_copy is not None:
-                pos_ref = ref.GetPosition()
-                new_pos_ref = __ModifyPoint(mirror_type, pos_ref, [coord_x, coord_y])
-                ref_copy.SetPosition(new_pos_ref)
-                print(pos_ref, new_pos_ref)
             # flip footprint if necessary
             flip = e_orig.IsFlipped()
             if flip and not e_copy.IsFlipped():
                 e_copy.Flip(new_pos)
-                if ref_copy is not None:
-                    ref_copy.Flip(new_pos_ref)
             # get original angle
             angle = e_orig.GetOrientation()
-            if ref_copy is not None:
-                angle_ref = ref.GetTextAngle()
-            else:
-                angle_ref = 0
             if mirror_type == TRANSFORM_TYPE_MIRROR:
                 # Rotate it (angle in 1/10 degreee)
                 new_angle = int((angle + 180*10) % (360*10))
-                new_angle_ref = int((angle_ref + 180*10) % (360*10))
             else:
                 new_angle = angle
-                new_angle_ref = angle_ref
             e_copy.SetOrientation(new_angle)
-            if ref_copy is not None:
-                ref_copy.SetTextAngle(new_angle_ref)
             count_footprints = count_footprints + 1
+            # process reference
+            ref = e_orig.Reference()
+            ref_copy = e_copy.Reference()
+            pos_ref = ref.GetPosition()
+            new_pos_ref = __ModifyPoint(mirror_type, pos_ref, [coord_x, coord_y])
+            ref_copy.SetPosition(new_pos_ref)
+            angle_ref = ref.GetTextAngle()
+            #if mirror_type == TRANSFORM_TYPE_MIRROR:
+            #    # Rotate it (angle in 1/10 degreee)
+            #    new_angle_ref = int((angle_ref + 180*10) % (360*10))
+            #else:
+            #    new_angle_ref = angle_ref
+            new_angle_ref = angle_ref
+            r_size = ref_copy.GetTextSize()
+            #r_len = ref_copy.GetText().length()
+            if angle_ref == 90*10:
+                ref_copy.Move(pcbnew.wxPoint(r_size.x, 0))
+            ref_copy.SetTextAngle(new_angle_ref)
+            just = ref.GetHorizJustify()
+            ref_copy.SetHorizJustify(just)
+            if not ref.IsVisible():
+                ref_copy.SetVisible(False)
     if do_tracks or do_vias:
         tracks = board.GetTracks()
         new_tracks = []
@@ -144,12 +159,25 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
         for track in new_tracks:
             tracks.Append(track)
     if do_polygons:
-        tracks = board.Zones()
+        zones = board.Zones()
         for zone in zones:
-            #pos = track.GetPosition()
-            #print(pos.x, pos.y)
-            pass
-        print("Polygons: Ready!")
+            pos = zone.GetPosition()
+            zone_copy = zone.Duplicate()
+            # move and rotate new zone
+            new_pos = __MovePoint(mirror_type, pos, [coord_x, coord_y])
+            if mirror_type == TRANSFORM_TYPE_MIRROR:
+                zone_copy.Rotate(pos, 180*10)
+            zone_copy.Move(new_pos)
+            layer = zone.GetLayer()
+            zone_copy.SetLayer(layer)
+            old_name = zone.GetNetname()
+            new_name = __GetNewName(old_name, do_multi, sheet_orig, sheet_copy, elements)
+            new_code = board.GetNetcodeFromNetname(new_name)
+            #new_net = board.FindNet(new_code)
+            zone_copy.SetNetCode(new_code)
+            #new_zone.SetNet(new_net)            
+            board.Add(zone_copy)
+            count_polys = count_polys + 1
     result = {}
     result["footprints"] = count_footprints
     result["vias"] = count_vias

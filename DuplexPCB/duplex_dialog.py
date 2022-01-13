@@ -36,11 +36,9 @@ class DuplexDialog(duplex_gui):
         elif rb == self.radio_single:
             self.do_multi = False
             self.st_map_hint.SetLabel("Enter suffixes for duplicated nets (e.g., 1 and 2 for NET1 and NET2)")
-            #self.sb_mapping.SetLabel("Single sheet mapping: ")            
         elif rb == self.radio_multi:
             self.do_multi = True
-            self.st_map_hint.SetLabel("Enter names of sheets to duplicate (e.g., SHEET1 and SHEET2")
-            #self.sb_mapping.SetLabel("Multiple sheets mapping: ")
+            self.st_map_hint.SetLabel("Enter names of sheets to duplicate (e.g., SHEET1 and SHEET2)")
         #print("Value: " + str(self.mirror_type))
         #print("Clicked: " + rb.GetLabel())
 
@@ -66,7 +64,7 @@ class DuplexDialog(duplex_gui):
                 msg += "{}: {}\n".format(x, str(result[x]))
             wx.MessageBox("Ready!\n\nProcessed:\n" + msg)
         except Exception as ex:
-            wx.MessageBox("Error: " + ex)
+            wx.MessageBox("Error: " + type(ex).__name__)
         self.EndModal(wx.ID_OK)
 
     def onCloseWindow(self, event):

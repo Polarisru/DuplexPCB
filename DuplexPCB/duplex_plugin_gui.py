@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version Oct 26 2018)
+## Python code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 ## http://www.wxformbuilder.org/
 ##
 ## PLEASE DO *NOT* EDIT THIS FILE!
@@ -17,7 +17,7 @@ import wx.xrc
 class duplex_gui ( wx.Dialog ):
 
 	def __init__( self, parent ):
-		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"DuplexPCB", pos = wx.DefaultPosition, size = wx.Size( 394,445 ), style = wx.DEFAULT_DIALOG_STYLE )
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"DuplexPCB", pos = wx.DefaultPosition, size = wx.Size( 500,500 ), style = wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER )
 
 		#self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -64,7 +64,7 @@ class duplex_gui ( wx.Dialog ):
 
 		bSizer2.Add( self.m_staticText1, 0, wx.ALIGN_CENTER|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5 )
 
-		self.sp_center_x = wx.SpinCtrlDouble( sb_center.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), wx.SP_ARROW_KEYS, 0, 250, 0, 0.1 )
+		self.sp_center_x = wx.SpinCtrlDouble( sb_center.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( 100,-1 ), wx.SP_ARROW_KEYS, 0, 250, 0.100000, 0.1 )
 		self.sp_center_x.SetDigits( 1 )
 		bSizer2.Add( self.sp_center_x, 0, wx.ALL, 5 )
 
@@ -138,10 +138,21 @@ class duplex_gui ( wx.Dialog ):
 
 		sb_mapping.Add( bSizer7, 1, wx.EXPAND, 5 )
 
-		self.st_map_hint = wx.StaticText( sb_mapping.GetStaticBox(), wx.ID_ANY, u"Enter suffixes for duplicated nets", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer71 = wx.BoxSizer( wx.VERTICAL )
+
+
+		bSizer71.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
+		self.st_map_hint = wx.StaticText( sb_mapping.GetStaticBox(), wx.ID_ANY, u"Enter suffixes for duplicated nets (e.g., 1 and 2 for NET1 and NET2)", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.st_map_hint.Wrap( -1 )
 
-		sb_mapping.Add( self.st_map_hint, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
+		bSizer71.Add( self.st_map_hint, 0, wx.ALIGN_CENTER|wx.ALL, 5 )
+
+
+		bSizer71.Add( ( 0, 0), 1, wx.EXPAND, 5 )
+
+
+		sb_mapping.Add( bSizer71, 1, wx.EXPAND, 5 )
 
 
 		sizer_main.Add( sb_mapping, 1, wx.EXPAND, 5 )

@@ -1,2 +1,3 @@
 cd e:\projects\duplexpcb\duplexpcb
+cd c:\work\duplexpcb\duplexpcb
 execfile("duplex_dialog.py")
