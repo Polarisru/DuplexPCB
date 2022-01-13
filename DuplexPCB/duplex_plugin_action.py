@@ -108,7 +108,10 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
             ref = e_orig.Reference()
             ref_copy = e_copy.Reference()
             pos_ref = ref.GetPosition()
-            new_pos_ref = __ModifyPoint(mirror_type, pos_ref, [coord_x, coord_y])
+            #new_pos_ref = __ModifyPoint(mirror_type, pos_ref, [coord_x, coord_y])
+            new_pos_ref = __ModifyPoint(mirror_type, pos, [coord_x, coord_y])
+            ref_diff = pos - pos_ref
+            new_pos_ref = new_pos_ref + ref_diff
             ref_copy.SetPosition(new_pos_ref)
             angle_ref = ref.GetTextAngle()
             #if mirror_type == TRANSFORM_TYPE_MIRROR:
@@ -116,14 +119,13 @@ def MakeDuplex(board=None, center_x=0.0, center_y=0.0, mirror_type=TRANSFORM_TYP
             #    new_angle_ref = int((angle_ref + 180*10) % (360*10))
             #else:
             #    new_angle_ref = angle_ref
-            new_angle_ref = angle_ref
-            r_size = ref_copy.GetTextSize()
-            #r_len = ref_copy.GetText().length()
-            if angle_ref == 90*10:
-                ref_copy.Move(pcbnew.wxPoint(r_size.x, 0))
-            ref_copy.SetTextAngle(new_angle_ref)
+            #ref_copy.Move(ref_diff)
+            ref_copy.SetTextAngle(angle_ref)
+            if angle % (180*10) == 0:
+                ref_copy.Rotate(new_pos_ref, 180*10)
             just = ref.GetHorizJustify()
             ref_copy.SetHorizJustify(just)
+            ref_copy.SetKeepUpright(not ref.IsKeepUpright())
             if not ref.IsVisible():
                 ref_copy.SetVisible(False)
     if do_tracks or do_vias:
